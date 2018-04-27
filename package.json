@@ -1,0 +1,14 @@
+{
+  "name": "three-vr-hand-controller",
+  "version": "1.0.0",
+  "description": "Wrapper for Desktop VR Hand Controls",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eventemitter3": "^3.1.0"
+  }
+}
