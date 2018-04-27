@@ -5,6 +5,21 @@ const extend = function(object, extension) {
     }
 }
 
+// Since chromes gamepad list is not an actual array we need to explicitly declare find and indexOf
+const find = function(list, query) {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i] && query(list[i])) return list[i]
+  }
+  return null
+}
+
+const indexOf = function(list, obj) {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i] === obj) return i
+  }
+  return -1
+}
+
 module.exports = function(THREE) {
   class VRController extends THREE.Object3D {
   	// id should become: hand is string left, right, or undefined to just grab the next controller
@@ -22,10 +37,10 @@ module.exports = function(THREE) {
   		if (gp) {
   			return gp
   		} else if (this.controllerId === 'left' || this.controllerId === 'right') {
-  			const found = gamepads.find(gp => gp.hand === this.controllerId || gp.id.toLowerCase().indexOf(this.controllerId) != -1)
+  			const found = find(gamepads, gp => gp.hand === this.controllerId || gp.id.toLowerCase().indexOf(this.controllerId) != -1)
   			if (found) {
   				this.type = VRController.TypeMappings[found.id]
-  				this.controllerId = gamepads.indexOf(found)
+  				this.controllerId = indexOf(gamepads, found)
   				this.loadModel(found.hand)
   				return found
   			}
@@ -46,6 +61,7 @@ module.exports = function(THREE) {
   			}
   			const pose = gp.pose
   			this.updatePose(gp.pose)
+        console.log(gp.pose)
   			this.updateButtons(gp.buttons)
   			this.updateAxes(gp.axes)
   		} else {
